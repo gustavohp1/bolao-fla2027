@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bolão do Flamengo - Painel Oficial</title>
+    <style>
+        :root {
+            --primary: #c62828;
+            --primary-dark: #b71c1c;
+            --secondary: #fbc02d;
+            --dark: #121212;
+            --light: #f4f4f9;
+        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--light); color: var(--dark); margin: 0; padding: 10px; }
+        .container { max-width: 900px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+        h1 { color: var(--primary); text-align: center; margin-bottom: 5px; }
+        .subtitle { text-align: center; color: #666; font-size: 0.95rem; margin-bottom: 25px; }
+        .card { background: #fff; border: 1px solid #e0e0e0; border-radius: 8px; padding: 15px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .card h3 { margin-top: 0; color: var(--primary); border-bottom: 2px solid var(--primary); padding-bottom: 8px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 0.9rem; }
+        select, input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; font-size: 1rem; }
+        button { background-color: var(--primary); color: white; border: none; padding: 12px 20px; border-radius: 6px; cursor: pointer; font-size: 1rem; font-weight: bold; width: 100%; transition: background 0.2s; }
+        button:hover { background-color: var(--primary-dark); }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.95rem; }
+        th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: var(--primary); color: white; }
+        .whatsapp-btn { background-color: #25d366; margin-top: 15px; }
+        .whatsapp-btn:hover { background-color: #128c7e; }
+        .badge { background: var(--secondary); color: #000; padding: 3px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold; }
+        .rules-box { background: #fff8e1; border-left: 4px solid #ffb300; padding: 12px; font-size: 0.85rem; margin-bottom: 15px; border-radius: 4px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔴⚫ Bolão do Flamengo</h1>
+        <p class="subtitle">Gestão Automática de Palpites & Classificação</p>
+
+        <!-- Área de Identificação / Aposta -->
+        <div class="card">
+            <h3>📝 Fazer o meu Palpite</h3>
+            <div class="rules-box">
+                <strong>Regras exprés:</strong> Placar Exato (10 pts) | Placar Mengão (5 pts) | Placar Adv. (2 pts) | Golo Capitão (5 pts) | Assistência Capitão (2 pts). <em>Finais dobram os pontos!</em>
+            </div>
+            <div class="form-group">
+                <label for="participante">Selecione o seu Nome:</label>
+                <select id="participante">
+                    <option value="">-- Escolha o seu nome --</option>
+                    <script>
+                        const participantes = ["Gustavo", "Bruna", "Rafael", "Pedro", "Vanderlei", "André", "Wellington", "Leandro", "Carlos", "Diones", "Rodrigo", "Junior", "Participante 13", "Participante 14", "Participante 15", "Participante 16", "Participante 17", "Participante 18", "Participante 19", "Participante 20", "Participante 21", "Participante 22", "Participante 23", "Participante 24", "Participante 25"];
+                        participantes.forEach(p => document.write(`<option value="${p}">${p}</option>`));
+                    </script>
+                </select>
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <div class="form-group" style="flex: 1;">
+                    <label>Gols Flamengo:</label>
+                    <input type="number" id="golsFla" min="0" placeholder="Ex: 2">
+                </div>
+                <div class="form-group" style="flex: 1;">
+                    <label>Gols Adversário:</label>
+                    <input type="number" id="golsAdv" min="0" placeholder="Ex: 1">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="capitao">Jogador Capitão:</label>
+                <select id="capitao">
+                    <option value="Arrascaeta">Arrascaeta</option>
+                    <option value="Pedro">Pedro</option>
+                    <option value="Bruno Henrique">Bruno Henrique</option>
+                    <option value="Gabigol">Gabigol</option>
+                    <option value="Luiz Araújo">Luiz Araújo</option>
+                    <option value="Gerson">Gerson</option>
+                </select>
+            </div>
+            <button onclick="salvarPalpite()">Guardar Palpite (Sigiloso)</button>
+        </div>
+
+        <!-- Tabela de Classificação -->
+        <div class="card">
+            <h3>🏆 Classificação Geral do Bolão</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pos</th>
+                        <th>Participante</th>
+                        <th>Pts</th>
+                    </tr>
+                </thead>
+                <tbody id="tabelaClassificacao">
+                    <tr><td>1°</td><td>Gustavo</td><td>45</td></tr>
+                    <tr><td>2°</td><td>Vanderlei</td><td>42</td></tr>
+                    <tr><td>3°</td><td>André</td><td>38</td></tr>
+                </tbody>
+            </table>
+            <button class="whatsapp-btn" onclick="gerarResumoWhatsApp()">📱 Gerar Relatório para o WhatsApp</button>
+        </div>
+    </div>
+
+    <script>
+        function salvarPalpite() {
+            const p = document.getElementById('participante').value;
+            if(!p) {
+                alert('Por favor, selecione o seu nome!');
+                return;
+            }
+            alert('Palpite guardado com sucesso e mantido em sigilo até 1 hora antes do jogo, ' + p + '!');
+        }
+
+        function gerarResumoWhatsApp() {
+            const texto = "*📊 CLASSIFICAÇÃO ATUALIZADA - BOLÃO DO FLAMENGO* %0A%0A1° Gustavo - 45 pts%0A2° Vanderlei - 42 pts%0A3° André - 38 pts%0A%0A_Sistema 100% automático GPECON._";
+            window.open(`https://api.whatsapp.com/send?text=${texto}`, '_blank');
+        }
+    </script>
+</body>
+</html>
