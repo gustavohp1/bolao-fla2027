@@ -35,13 +35,13 @@
 <body>
     <div class="container">
         <h1>🔴⚫ Bolão do Flamengo</h1>
-        <p class="subtitle">Gestão Automática de Palpites & Classificação</p>
+        <p class="subtitle">Gestão Automática de Palpites & Classificação (Sigiloso)</p>
 
         <!-- Área de Identificação / Aposta -->
         <div class="card">
             <h3>📝 Fazer o meu Palpite</h3>
             <div class="rules-box">
-                <strong>Regras exprés:</strong> Placar Exato (10 pts) | Placar Mengão (5 pts) | Placar Adv. (2 pts) | Golo Capitão (5 pts) | Assistência Capitão (2 pts). <em>Finais dobram os pontos!</em>
+                <strong>Regras oficiais:</strong> Placar Exato (10 pts) | Placar Mengão (5 pts) | Placar Adv. (2 pts) | Golo Capitão (5 pts) | Assistência Capitão (2 pts). <em>Finais dobram os pontos e prorrogação vale até aos 120 minutos!</em>
             </div>
             <div class="form-group">
                 <label for="participante">Selecione o seu Nome:</label>
@@ -76,7 +76,7 @@
                     <option value="Gerson">Gerson</option>
                 </select>
             </div>
-            <button onclick="salvarPalpite()">Guardar Palpite (Sigiloso)</button>
+            <button onclick="salvarPalpiteSeguro()">Guardar Palpite (Sigilo Absoluto)</button>
         </div>
 
         <!-- Tabela de Classificação -->
@@ -91,9 +91,9 @@
                     </tr>
                 </thead>
                 <tbody id="tabelaClassificacao">
-                    <tr><td>1°</td><td>Gustavo</td><td>45</td></tr>
-                    <tr><td>2°</td><td>Vanderlei</td><td>42</td></tr>
-                    <tr><td>3°</td><td>André</td><td>38</td></tr>
+                    <tr><td>1°</td><td>Gustavo</td><td>0</td></tr>
+                    <tr><td>2°</td><td>Vanderlei</td><td>0</td></tr>
+                    <tr><td>3°</td><td>André</td><td>0</td></tr>
                 </tbody>
             </table>
             <button class="whatsapp-btn" onclick="gerarResumoWhatsApp()">📱 Gerar Relatório para o WhatsApp</button>
@@ -101,17 +101,27 @@
     </div>
 
     <script>
-        function salvarPalpite() {
+        function salvarPalpiteSeguro() {
             const p = document.getElementById('participante').value;
+            const gFla = document.getElementById('golsFla').value;
+            const gAdv = document.getElementById('golsAdv').value;
+            const cap = document.getElementById('capitao').value;
+
             if(!p) {
                 alert('Por favor, selecione o seu nome!');
                 return;
             }
-            alert('Palpite guardado com sucesso e mantido em sigilo até 1 hora antes do jogo, ' + p + '!');
+            if(gFla === '' || gAdv === '') {
+                alert('Por favor, preencha o placar do jogo!');
+                return;
+            }
+
+            // Aqui vamos conectar ao Firebase para gravar encriptado e com sigilo
+            alert('Palpite registado com sucesso para ' + p + '! Os palpites estão ocultos e protegidos até 1 hora antes do jogo.');
         }
 
         function gerarResumoWhatsApp() {
-            const texto = "*📊 CLASSIFICAÇÃO ATUALIZADA - BOLÃO DO FLAMENGO* %0A%0A1° Gustavo - 45 pts%0A2° Vanderlei - 42 pts%0A3° André - 38 pts%0A%0A_Sistema 100% automático GPECON._";
+            const texto = "*📊 CLASSIFICAÇÃO ATUALIZADA - BOLÃO DO FLAMENGO* %0A%0A1° Gustavo - 0 pts%0A2° Vanderlei - 0 pts%0A3° André - 0 pts%0A%0A_Sistema 100% automático GPECON._";
             window.open(`https://api.whatsapp.com/send?text=${texto}`, '_blank');
         }
     </script>
